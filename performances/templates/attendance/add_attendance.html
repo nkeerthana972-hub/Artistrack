@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Attendance | ArtisTrack{% endblock %}
+{% block page_title %}Add Attendance{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-8">
+
+        <div class="ds-page-header">
+
+            <h1 class="ds-page-title">
+                Add Attendance Record
+            </h1>
+
+            <p class="ds-page-subtitle">
+                Securely register artist attendance and participation records.
+            </p>
+
+        </div>
+
+        <div class="ds-card">
+
+            <div class="row align-items-center g-4 mb-4">
+
+                <div class="col-lg-8">
+
+                    <span class="ds-badge ds-badge-info mb-3">
+                        <i class="ri-calendar-check-line"></i>
+                        Attendance Management
+                    </span>
+
+                    <h3 class="fw-bold mb-2">
+                        Attendance Registration
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Record attendance data securely within the ArtisTrack system.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1200&auto=format&fit=crop"
+                        class="img-fluid rounded-4"
+                        style="height:200px;width:100%;object-fit:cover;"
+                    >
+
+                </div>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Artist
+                        </label>
+
+                        {{ form.artist }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Training Session
+                        </label>
+
+                        {{ form.training }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Attendance Date
+                        </label>
+
+                        {{ form.date }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Status
+                        </label>
+
+                        {{ form.status }}
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="mb-2">
+                            Remarks
+                        </label>
+
+                        {{ form.remarks }}
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3 mt-5">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-success"
+                    >
+
+                        <i class="ri-save-line"></i>
+
+                        Save Attendance
+
+                    </button>
+
+                    <a
+                        href="/attendance/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+
+                        <i class="ri-arrow-left-line"></i>
+
+                        Back
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

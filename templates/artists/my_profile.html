@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block page_title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+    <h1 class="ds-page-title">My Profile</h1>
+    <p class="ds-page-subtitle">
+        Manage your personal information and artist profile.
+    </p>
+</div>
+
+<div class="row g-4">
+
+    <!-- PROFILE CARD -->
+
+    <div class="col-lg-4">
+
+        <div class="ds-card text-center h-100">
+
+            {% if artist.profile_image %}
+
+                <img
+                    src="{{ artist.profile_image.url }}"
+                    class="rounded-circle mx-auto mb-4"
+                    width="170"
+                    height="170"
+                    style="object-fit:cover;border:4px solid rgba(124,106,247,.35);"
+                >
+
+            {% else %}
+
+                <img
+                    src="https://via.placeholder.com/170"
+                    class="rounded-circle mx-auto mb-4"
+                    style="border:4px solid rgba(124,106,247,.35);"
+                >
+
+            {% endif %}
+
+            <h3 class="fw-semibold mb-1">
+                {{ artist.first_name }} {{ artist.last_name }}
+            </h3>
+
+            <p class="text-secondary mb-4">
+                Professional Artist
+            </p>
+
+            <div class="d-grid">
+
+                <a
+                    href="/edit-my-profile/"
+                    class="ds-btn ds-btn-primary justify-content-center"
+                >
+                    <i class="ri-edit-line"></i>
+                    Edit Profile
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PROFILE DETAILS -->
+
+    <div class="col-lg-8">
+
+        <div class="ds-card h-100">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label>Email Address</label>
+
+                    <div class="ds-stat mt-2">
+                        <div class="ds-stat-value" style="font-size:18px;">
+                            {{ artist.email }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Phone Number</label>
+
+                    <div class="ds-stat mt-2">
+                        <div class="ds-stat-value" style="font-size:18px;">
+                            {{ artist.phone }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Age</label>
+
+                    <div class="ds-stat mt-2">
+                        <div class="ds-stat-value">
+                            {{ artist.age }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Gender</label>
+
+                    <div class="ds-stat mt-2">
+                        <div class="ds-stat-value" style="font-size:20px;">
+                            {{ artist.gender }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Dance Style</label>
+
+                    <div class="ds-stat mt-2">
+                        <div class="ds-stat-value" style="font-size:20px;">
+                            {{ artist.dance_style }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+
+                    <label>Joined Date</label>
+
+                    <div class="ds-card mt-2">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="ds-stat-icon"
+                                 style="position:static;background:rgba(124,106,247,.15);color:var(--ds-accent-2);">
+                                <i class="ri-calendar-line"></i>
+                            </div>
+
+                            <div>
+                                <div class="fw-semibold">
+                                    {{ artist.joined_date }}
+                                </div>
+
+                                <div class="text-secondary small">
+                                    Member since joining ArtisTrack
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

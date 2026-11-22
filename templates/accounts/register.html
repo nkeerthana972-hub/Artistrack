@@ -1,0 +1,384 @@
+{% extends 'base_public.html' %}
+
+{% block title %}Register — ArtisTrack{% endblock %}
+
+{% block content %}
+
+<style>
+
+.register-page{
+    min-height:calc(100vh - 56px);
+    display:grid;
+    grid-template-columns:1.1fr 520px;
+    background:var(--ds-bg);
+    overflow:hidden;
+}
+
+/* LEFT SIDE */
+
+.register-left{
+    position:relative;
+    padding:40px;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+}
+
+.register-left::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(rgba(13,15,18,.78),rgba(13,15,18,.92)),
+        url('https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=1974&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+}
+
+.register-left-content{
+    position:relative;
+    z-index:2;
+    max-width:560px;
+}
+
+.register-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(124,106,247,.12);
+    border:1px solid rgba(124,106,247,.25);
+    color:var(--ds-accent-2);
+    padding:7px 16px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    margin-bottom:24px;
+}
+
+.register-title{
+    font-family:var(--ds-font-serif);
+    font-size:40px;
+    line-height:1.05;
+    letter-spacing:-1px;
+    margin-bottom:16px;
+    color:var(--ds-text);
+}
+
+.register-title span{
+    color:var(--ds-accent-2);
+}
+
+.register-desc{
+    color:var(--ds-text-2);
+    font-size:17px;
+    line-height:1.8;
+    max-width:500px;
+}
+
+.register-features{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-top:40px;
+}
+
+.feature-box{
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--ds-border);
+    border-radius:16px;
+    padding:18px;
+    backdrop-filter:blur(12px);
+}
+
+.feature-box i{
+    font-size:22px;
+    color:var(--ds-accent-2);
+    margin-bottom:10px;
+    display:block;
+}
+
+.feature-box-title{
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:4px;
+}
+
+.feature-box-desc{
+    font-size:12px;
+    color:var(--ds-text-2);
+    line-height:1.6;
+}
+
+/* RIGHT SIDE */
+
+.register-right{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    position:relative;
+}
+
+.register-card{
+    width:100%;
+    max-width:460px;
+    background:rgba(24,28,34,.92);
+    border:1px solid var(--ds-border-2);
+    border-radius:28px;
+    padding:28px;
+    backdrop-filter:blur(20px);
+    position:relative;
+    overflow:hidden;
+}
+
+.register-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:linear-gradient(
+        90deg,
+        var(--ds-accent),
+        #38bdf8,
+        var(--ds-accent-2)
+    );
+}
+
+.form-title{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:8px;
+    color:var(--ds-text);
+}
+
+.form-subtitle{
+    color:var(--ds-text-2);
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+.form-group{
+    margin-bottom:12px;
+}
+
+.form-group label{
+    margin-bottom:7px;
+}
+
+.form-text{
+    color:var(--ds-text-3)!important;
+    font-size:11px!important;
+    margin-top:6px;
+    line-height:1.5;
+}
+
+.text-danger{
+    color:#f87171!important;
+}
+
+.register-btn{
+    width:100%;
+    justify-content:center;
+    padding:14px;
+    font-size:15px;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+.auth-footer{
+    text-align:center;
+    margin-top:24px;
+    color:var(--ds-text-2);
+    font-size:14px;
+}
+
+.auth-footer a{
+    color:var(--ds-accent-2);
+    font-weight:600;
+}
+
+.page-orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.18;
+    z-index:0;
+}
+
+.orb-1{
+    width:320px;
+    height:320px;
+    background:#7c6af7;
+    top:-80px;
+    right:-80px;
+}
+
+.orb-2{
+    width:280px;
+    height:280px;
+    background:#38bdf8;
+    bottom:-100px;
+    left:-100px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .register-page{
+        grid-template-columns:1fr;
+    }
+
+    .register-left{
+        display:none;
+    }
+
+    .register-right{
+        padding:30px 18px;
+    }
+
+    .register-card{
+        padding:34px 26px;
+    }
+
+}
+
+</style>
+
+<div class="register-page">
+
+    <!-- LEFT SIDE -->
+
+    <div class="register-left">
+
+        <div class="page-orb orb-1"></div>
+        <div class="page-orb orb-2"></div>
+
+        <div class="register-left-content">
+
+
+            <h3 class="register-title">
+                Start managing your <span>dance organisation</span> professionally
+            </h3>
+
+            <p class="register-desc">
+                ArtisTrack helps studios and performance teams manage artists, trainings, performances, attendance and operations through one modern platform.
+            </p>
+
+            <div class="register-features">
+
+                <div class="feature-box">
+                    <i class="ri-group-line"></i>
+                    <div class="feature-box-title">Artist Management</div>
+                    <div class="feature-box-desc">
+                        Organise artist profiles and records efficiently.
+                    </div>
+                </div>
+
+                <div class="feature-box">
+                    <i class="ri-award-line"></i>
+                    <div class="feature-box-title">Performances</div>
+                    <div class="feature-box-desc">
+                        Manage events and dance showcases easily.
+                    </div>
+                </div>
+
+                <div class="feature-box">
+                    <i class="ri-calendar-check-line"></i>
+                    <div class="feature-box-title">Attendance</div>
+                    <div class="feature-box-desc">
+                        Track attendance and training participation.
+                    </div>
+                </div>
+
+                <div class="feature-box">
+                    <i class="ri-run-line"></i>
+                    <div class="feature-box-title">Training Sessions</div>
+                    <div class="feature-box-desc">
+                        Schedule and monitor dance training activities.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="register-right">
+
+        <div class="register-card">
+
+            <h2 class="form-title">
+                Create Account
+            </h2>
+
+            <p class="form-subtitle">
+                Join ArtisTrack and start managing your dance organisation.
+            </p>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        {{ field.label_tag }}
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <div class="form-text">
+                                {{ field.help_text }}
+                            </div>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="text-danger small mt-2">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                    <div class="ds-alert ds-alert-error">
+                        <i class="ri-error-warning-line"></i>
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <button
+                    type="submit"
+                    class="ds-btn ds-btn-primary register-btn"
+                >
+                    <i class="ri-user-add-line"></i>
+                    Create Account
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+                Already have an account?
+                <a href="/login/">
+                    Login here
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

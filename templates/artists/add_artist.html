@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Artist | ArtisTrack{% endblock %}
+{% block page_title %}Add Artist{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-8">
+
+        <div class="ds-page-header">
+
+            <h1 class="ds-page-title">
+                Add New Artist
+            </h1>
+
+            <p class="ds-page-subtitle">
+                Register a new artist into the ArtisTrack system.
+            </p>
+
+        </div>
+
+        <div class="ds-card">
+
+            <div class="row align-items-center mb-4">
+
+                <div class="col-md-8">
+
+                    <span class="ds-badge ds-badge-purple mb-3">
+                        <i class="ri-user-add-line"></i>
+                        Artist Registration
+                    </span>
+
+                    <h3 style="font-weight:700;">
+                        Create Artist Profile
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Fill in the artist information below.
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 text-center mt-4 mt-md-0">
+
+                    
+
+                </div>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row g-4">
+
+                    {% for field in form %}
+
+                    <div class="col-md-6">
+
+                        {{ field.label_tag }}
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                        <div class="mt-1" style="font-size:12px;color:var(--ds-text-3);">
+                            {{ field.help_text }}
+                        </div>
+                        {% endif %}
+
+                        {% if field.errors %}
+                        <div class="mt-1 text-danger small">
+                            {{ field.errors|striptags }}
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="d-flex gap-3 mt-5">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-primary"
+                    >
+                        <i class="ri-save-line"></i>
+                        Save Artist
+                    </button>
+
+                    <a
+                        href="/artists/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+                        <i class="ri-arrow-left-line"></i>
+                        Back
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

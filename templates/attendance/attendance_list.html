@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance | ArtisTrack{% endblock %}
+{% block page_title %}Attendance Management{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
+
+        <h1 class="ds-page-title">
+            Attendance Records
+        </h1>
+
+        <p class="ds-page-subtitle">
+            Monitor attendance participation and artist presence securely.
+        </p>
+
+    </div>
+
+    {% if user.role == 'admin' or user.role == 'director' or user.role == 'coach' %}
+
+    <a
+        href="/add-attendance/"
+        class="ds-btn ds-btn-primary"
+    >
+
+        <i class="ri-calendar-check-line"></i>
+
+        Add Attendance
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+<!-- HERO -->
+
+<div class="ds-card mb-4">
+
+    <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+
+            <span class="ds-badge ds-badge-info mb-3">
+                <i class="ri-bar-chart-line"></i>
+                Attendance Monitoring
+            </span>
+
+            <h2 class="fw-bold mb-3">
+                Real-Time Attendance Tracking
+            </h2>
+
+            <p class="text-secondary mb-4">
+                Track artist participation, identify absences,
+                and maintain secure attendance records.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <div class="ds-topbar-badge">
+                    <i class="ri-database-line"></i>
+                    {{ attendance_records|length }} Records
+                </div>
+
+                <div class="ds-topbar-badge">
+                    <i class="ri-shield-check-line"></i>
+                    Secure RBAC
+                </div>
+
+                <div class="ds-topbar-badge">
+                    <i class="ri-team-line"></i>
+                    Artist Monitoring
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 text-center">
+
+            <img
+                src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1200&auto=format&fit=crop"
+                style="height:240px;width:100%;object-fit:cover;"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="ds-table-wrap">
+
+    <table class="ds-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Artist</th>
+                <th>Training Session</th>
+                <th>Date</th>
+                <th>Status</th>
+
+                {% if user.role == 'admin'  or user.role == 'coach' %}
+                <th>Actions</th>
+                {% endif %}
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for attendance in attendance_records %}
+
+            <tr>
+
+                <td>
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="ds-avatar">
+
+                            {{ attendance.artist.first_name|slice:":1" }}{{ attendance.artist.last_name|slice:":1" }}
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">
+
+                                {{ attendance.artist }}
+
+                            </div>
+
+                            <small class="text-secondary">
+
+                                Attendance ID #{{ attendance.id }}
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>
+
+                    <div class="fw-semibold">
+
+                        {{ attendance.training.session_title }}
+
+                    </div>
+
+                    <small class="text-secondary">
+
+                        {{ attendance.training.training_type }}
+
+                    </small>
+
+                </td>
+
+                <td>
+
+                    {{ attendance.date }}
+
+                </td>
+
+                <td>
+
+                    {% if attendance.status == 'present' %}
+
+                    <span class="ds-badge ds-badge-success">
+
+                        <i class="ri-checkbox-circle-line"></i>
+
+                        Present
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="ds-badge ds-badge-danger">
+
+                        <i class="ri-close-circle-line"></i>
+
+                        Absent
+
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+                {% if user.role == 'admin' or user.role == 'coach' %}
+                <td>
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <a
+                            href="/edit-attendance/{{ attendance.id }}/"
+                            class="ds-btn ds-btn-warning ds-btn-sm"
+                        >
+
+                            <i class="ri-edit-line"></i>
+
+                            Edit
+
+                        </a>
+
+                        {% if user.role == 'admin'  %}
+
+                        <a
+                            href="/delete-attendance/{{ attendance.id }}/"
+                            class="ds-btn ds-btn-danger ds-btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this attendance record?');"
+                        >
+
+                            <i class="ri-delete-bin-line"></i>
+
+                            Delete
+
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </td>
+                {% endif %}
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    <div class="ds-empty">
+
+                        <i class="ri-calendar-close-line"></i>
+
+                        <p>
+                            No attendance records available.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

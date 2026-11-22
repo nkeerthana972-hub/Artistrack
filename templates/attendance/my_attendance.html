@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block title %}My Attendance | ArtisTrack{% endblock %}
+{% block page_title %}My Attendance{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+
+    <h1 class="ds-page-title">
+        My Attendance
+    </h1>
+
+    <p class="ds-page-subtitle">
+        Monitor your attendance records and participation statistics.
+    </p>
+
+</div>
+
+<!-- STATS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Total Records
+            </div>
+
+            <div class="ds-stat-value">
+                {{ total_records }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Present
+            </div>
+
+            <div class="ds-stat-value">
+                {{ present_count }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Absent
+            </div>
+
+            <div class="ds-stat-value">
+                {{ absent_count }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Attendance %
+            </div>
+
+            <div class="ds-stat-value">
+                {{ attendance_percentage }}%
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="ds-card">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h3 class="mb-1">
+                Attendance History
+            </h3>
+
+            <p class="text-secondary mb-0">
+                View all attendance activity and training participation.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="ds-table-wrap">
+
+        <table class="ds-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Training Session</th>
+                    <th>Training Type</th>
+                    <th>Date</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for attendance in attendance_records %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="fw-semibold">
+
+                            {{ attendance.training.session_title }}
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        {{ attendance.training.training_type }}
+
+                    </td>
+
+                    <td>
+
+                        {{ attendance.date }}
+
+                    </td>
+
+                    <td>
+
+                        {% if attendance.status == 'present' %}
+
+                        <span class="ds-badge ds-badge-success">
+
+                            <i class="ri-checkbox-circle-line"></i>
+
+                            Present
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="ds-badge ds-badge-danger">
+
+                            <i class="ri-close-circle-line"></i>
+
+                            Absent
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4">
+
+                        <div class="ds-empty">
+
+                            <i class="ri-calendar-close-line"></i>
+
+                            <p>
+                                No attendance records available.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- PAGE HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="fw-bold">
+                My Performances
+            </h1>
+
+            <p class="text-muted">
+                View your performance history, scores and feedback.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Performances
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_performances }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 bg-primary text-white h-100">
+
+                <div class="card-body">
+
+                    <h6>
+                        Average Score
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ average_score }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 bg-success text-white h-100">
+
+                <div class="card-body">
+
+                    <h6>
+                        Highest Score
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ highest_score }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECENT PERFORMANCE CARDS -->
+
+    <div class="card shadow border-0 mb-5">
+
+        <div class="card-body">
+
+            <h3 class="mb-4">
+                Recent Performances
+            </h3>
+
+            <div class="row g-4">
+
+                {% for performance in recent_performances %}
+
+                <div class="col-md-4">
+
+                    <div class="card shadow-sm border-0 h-100">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold">
+                                {{ performance.event_name }}
+                            </h5>
+
+                            <p class="text-muted">
+                                {{ performance.performance_date }}
+                            </p>
+
+                            <div class="mb-3">
+
+                                <strong>Score:</strong>
+
+                                <span class="badge bg-success">
+
+                                    {{ performance.score }}
+
+                                </span>
+
+                            </div>
+
+                            <p>
+
+                                <strong>Feedback:</strong>
+
+                            </p>
+
+                            <p class="text-muted">
+
+                                {{ performance.feedback|truncatewords:15 }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <p>No performances available.</p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PERFORMANCE HISTORY TABLE -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h3>
+                    Performance History
+                </h3>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                            <th>Feedback</th>
+                            <th>Coach Comments</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for performance in performances %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ performance.event_name }}
+
+                            </td>
+
+                            <td>
+
+                                {{ performance.performance_date }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ performance.score }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{ performance.feedback|truncatewords:12 }}
+
+                            </td>
+
+                            <td>
+
+                                {% if performance.coach_comments %}
+
+                                    {{ performance.coach_comments|truncatewords:10 }}
+
+                                {% else %}
+
+                                    <span class="text-muted">
+
+                                        No comments
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="5">
+
+                                No performance records found.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

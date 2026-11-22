@@ -1,0 +1,205 @@
+{% extends 'base_public.html' %}
+{% block title %}Login — ArtisTrack{% endblock %}
+
+{% block content %}
+<style>
+.login-page {
+    min-height: calc(100vh - 56px);
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    background: var(--ds-bg);
+}
+
+.login-left {
+    position: relative;
+    overflow: hidden;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(13,15,18,.7), rgba(13,15,18,.85)),
+      url('https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1974&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+.login-left-content {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+}
+
+.login-title {
+    font-family: var(--ds-font-serif);
+    font-size: 64px;
+    line-height: 1.05;
+    margin-bottom: 24px;
+}
+
+.login-title span {
+    color: var(--ds-accent-2);
+}
+
+.login-desc {
+    font-size: 18px;
+    color: var(--ds-text-2);
+    line-height: 1.8;
+}
+
+.login-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(24,28,34,.9);
+    border: 1px solid var(--ds-border-2);
+    border-radius: 24px;
+    padding: 42px;
+    backdrop-filter: blur(18px);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ds-accent), #38bdf8);
+}
+
+.form-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.form-subtitle {
+    color: var(--ds-text-2);
+    margin-bottom: 32px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.login-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 24px;
+    color: var(--ds-text-2);
+}
+
+@media(max-width: 900px){
+    .login-page {
+        grid-template-columns: 1fr;
+    }
+
+    .login-left {
+        display: none;
+    }
+}
+
+.login-alert{
+    margin-top:18px;
+    margin-bottom:22px;
+    padding:12px 14px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    animation:fadeIn .25s ease;
+}
+
+.login-alert i{
+    font-size:18px;
+    flex-shrink:0;
+}
+
+.login-alert-error{
+    background:rgba(239,68,68,.12);
+    border:1px solid rgba(239,68,68,.25);
+    color:#fca5a5;
+}
+
+.login-alert-success{
+    background:rgba(34,197,94,.12);
+    border:1px solid rgba(34,197,94,.25);
+    color:#86efac;
+}
+</style>
+
+<div class="login-page">
+
+    <div class="login-left">
+        <div class="login-left-content">
+            <div class="hero-eyebrow">Professional Dance Management Platform</div>
+            <h1 class="login-title">
+                Welcome back to <span>ArtisTrack</span>
+            </h1>
+            <p class="login-desc">
+                Manage your artists, trainings, performances, attendance, and dance operations through one premium platform.
+            </p>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-card">
+
+            <h2 class="form-title">Sign In</h2>
+            <p class="form-subtitle">Access your dashboard securely</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Username</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    {{ form.password }}
+                </div>
+
+                <button type="submit" class="ds-btn ds-btn-primary login-btn">
+                    <i class="ri-login-box-line"></i>
+                    Login
+                </button>
+            </form>
+
+            <div class="auth-link">
+                Don't have an account?
+                <a href="/register/">Create one</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

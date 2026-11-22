@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Panel - ArtisTrack{% endblock %}
+
+{% block page_title %}Admin Panel{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+    <div class="ds-page-title">Admin Control Center</div>
+    <div class="ds-page-subtitle">
+        Manage system users, roles, logs, and system activity
+    </div>
+</div>
+
+<!-- ===================== STATS ===================== -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="ds-stat">
+            <div class="ds-stat-label">Total Users</div>
+            <div class="ds-stat-value">{{ total_users }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="ds-stat">
+            <div class="ds-stat-label">Directors</div>
+            <div class="ds-stat-value">{{ total_directors }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="ds-stat">
+            <div class="ds-stat-label">Coaches</div>
+            <div class="ds-stat-value">{{ total_coaches }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="ds-stat">
+            <div class="ds-stat-label">Artists</div>
+            <div class="ds-stat-value">{{ total_artists }}</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="mb-4">
+
+    <a
+        href="{% url 'create_staff' %}"
+        class="ds-btn ds-btn-primary"
+    >
+        <i class="ri-user-add-line"></i>
+        Create Staff Account
+    </a>
+
+</div>
+
+<!-- ===================== SEARCH ONLY ===================== -->
+<div class="ds-card mb-4">
+
+    <div class="row g-2">
+
+        <div class="col-md-9">
+            <input type="text"
+                   id="searchInput"
+                   class="form-control"
+                   placeholder="Search username or action...">
+        </div>
+
+        <div class="col-md-3">
+            <button class="ds-btn ds-btn-primary w-100" onclick="loadLogs(1)">
+                Search
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================== LOG TABLE ===================== -->
+<div class="ds-card mb-4">
+
+    <div class="ds-card-title">Recent Audit Logs</div>
+
+    <div id="log-table">
+        {% include 'admin_panel/log_table.html' %}
+    </div>
+
+</div>
+
+<!-- ===================== PAGINATION ===================== -->
+<div class="d-flex justify-content-center mt-3">
+
+    <ul class="pagination" id="pagination">
+        {% include 'admin_panel/pagination.html' %}
+    </ul>
+
+</div>
+
+<!-- ===================== AJAX ===================== -->
+<script>
+
+function loadLogs(page = 1) {
+
+    let q = document.getElementById("searchInput").value;
+
+    fetch(`/admin-panel/filter-logs/?page=${page}&q=${q}`)
+        .then(res => res.json())
+        .then(data => {
+
+            document.getElementById("log-table").innerHTML = data.html;
+            document.getElementById("pagination").innerHTML = data.pagination;
+
+        });
+}
+
+// pagination click
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains("page-link")) {
+
+        e.preventDefault();
+
+        let page = e.target.getAttribute("data-page");
+
+        if (page) loadLogs(page);
+    }
+});
+
+</script>
+
+{% endblock %}

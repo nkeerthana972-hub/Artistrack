@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account Locked • ArtisTrack</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+
+        body{
+            margin:0;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#0d0f12;
+            font-family:'DM Sans',sans-serif;
+            color:#fff;
+            padding:24px;
+        }
+
+        .lockout-card{
+            width:100%;
+            max-width:460px;
+            background:#181c22;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:20px;
+            padding:42px 36px;
+            text-align:center;
+            box-shadow:0 20px 50px rgba(0,0,0,.35);
+        }
+
+        .lockout-icon{
+            width:78px;
+            height:78px;
+            margin:0 auto 22px;
+            border-radius:50%;
+            background:rgba(239,68,68,.12);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:38px;
+            color:#ef4444;
+        }
+
+        h1{
+            margin:0 0 12px;
+            font-size:28px;
+            font-weight:600;
+        }
+
+        p{
+            margin:0;
+            color:#9aa0b4;
+            line-height:1.7;
+            font-size:15px;
+        }
+
+        .lockout-time{
+            margin-top:18px;
+            color:#f59e0b;
+            font-weight:500;
+        }
+
+        .lockout-btn{
+            margin-top:30px;
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:12px 20px;
+            border-radius:10px;
+            background:#7c6af7;
+            color:#fff;
+            text-decoration:none;
+            font-size:14px;
+            font-weight:500;
+            transition:.2s ease;
+        }
+
+        .lockout-btn:hover{
+            background:#9b8dff;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="lockout-card">
+
+        <div class="lockout-icon">
+            <i class="ri-shield-keyhole-line"></i>
+        </div>
+
+        <h1>Account Temporarily Locked</h1>
+
+        <p>
+            Multiple failed login attempts were detected on your account.
+        </p>
+
+        <p class="lockout-time">
+            Please try again after 1 hour.
+        </p>
+
+        <a href="/login/" class="lockout-btn">
+            <i class="ri-arrow-left-line"></i>
+            Back to Login
+        </a>
+
+    </div>
+
+</body>
+
+</html>

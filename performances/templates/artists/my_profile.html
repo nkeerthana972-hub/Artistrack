@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow p-4">
+
+    <h2 class="mb-4">
+        My Profile
+    </h2>
+
+    {% if artist.profile_image %}
+
+    <img
+        src="{{ artist.profile_image.url }}"
+        class="rounded-circle mb-3"
+        width="180"
+        height="180"
+        style="object-fit:cover;"
+    >
+
+    {% else %}
+
+    <img
+        src="https://via.placeholder.com/180"
+        class="rounded-circle mb-3"
+    >
+
+    {% endif %}
+
+    <p>
+        <strong>Name:</strong>
+
+        {{ artist.first_name }}
+        {{ artist.last_name }}
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+
+        {{ artist.email }}
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+
+        {{ artist.phone }}
+    </p>
+
+    <p>
+        <strong>Age:</strong>
+
+        {{ artist.age }}
+    </p>
+
+    <p>
+        <strong>Gender:</strong>
+
+        {{ artist.gender }}
+    </p>
+
+    <p>
+        <strong>Dance Style:</strong>
+
+        {{ artist.dance_style }}
+    </p>
+
+    <p>
+        <strong>Joined Date:</strong>
+
+        {{ artist.joined_date }}
+    </p>
+
+    <a
+    href="/edit-my-profile/"
+    class="btn btn-primary mb-3"
+    >
+    Edit Profile
+    </a>
+
+</div>
+
+{% endblock %}

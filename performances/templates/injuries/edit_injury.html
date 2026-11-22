@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Injury | ArtisTrack{% endblock %}
+{% block page_title %}Edit Injury{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-8">
+
+        <div class="ds-page-header">
+
+            <h1 class="ds-page-title">
+                Edit Injury Record
+            </h1>
+
+            <p class="ds-page-subtitle">
+                Update injury information, medical files, and recovery details.
+            </p>
+
+        </div>
+
+        <div class="ds-card overflow-hidden">
+
+            <div class="d-flex align-items-center gap-3 mb-4">
+
+                <div
+                    class="ds-avatar"
+                    style="width:58px;height:58px;font-size:20px;"
+                >
+                    <i class="ri-heart-pulse-line"></i>
+                </div>
+
+                <div>
+
+                    <h3 style="margin-bottom:4px;">
+                        Injury Management
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Modify recovery status and medical records securely.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+                <div class="row g-4">
+
+                    {% for field in form %}
+
+                    <div class="col-md-6">
+
+                        {{ field.label_tag }}
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                        <div
+                            class="mt-1"
+                            style="font-size:12px;color:var(--ds-text-3);"
+                        >
+                            {{ field.help_text }}
+                        </div>
+                        {% endif %}
+
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ field.errors|striptags }}
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="d-flex flex-wrap gap-3 mt-5">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-danger"
+                    >
+                        <i class="ri-save-line"></i>
+                        Save Changes
+                    </button>
+
+                    <a
+                        href="/injuries/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+                        <i class="ri-arrow-left-line"></i>
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

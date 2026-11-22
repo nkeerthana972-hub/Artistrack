@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block title %}Performances | ArtisTrack{% endblock %}
+{% block page_title %}Performances{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="ds-page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
+
+        <h1 class="ds-page-title">
+            Performance Management
+        </h1>
+
+        <p class="ds-page-subtitle">
+            Track artist events, schedules, and live performance operations.
+        </p>
+
+    </div>
+
+    {% if user.role == 'admin' or user.role == 'coach'  %}
+
+    <a href="/add-performance/" class="ds-btn ds-btn-primary">
+
+        <i class="ri-add-line"></i>
+        Add Performance
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+<!-- STATS -->
+
+<div class="row g-4 mb-4 align-items-stretch">
+
+    <div class="col-md-4">
+        <div class="ds-stat h-100">
+            <div class="ds-stat-label">
+                Total Performances
+            </div>
+            <div class="ds-stat-value">
+                {{ performances|length }}
+            </div>
+            <div
+                class="ds-stat-icon"
+                style="background:rgba(124,106,247,.12); color:var(--ds-accent);"
+            >
+                <i class="ri-award-line"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <img
+            src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1400&auto=format&fit=crop"
+            style="
+                width:100%;
+                height:100%;
+                max-height:160px;
+                object-fit:cover;
+                border-radius:16px;
+                border:1px solid var(--ds-border);
+            "
+        >
+    </div>
+
+</div>
+
+<!-- PERFORMANCE TABLE -->
+
+
+<div class="ds-table-wrap">
+
+    <table class="ds-table align-middle">
+
+        <thead>
+
+            <tr>
+
+                <th style="width:30%;">
+                    Artist
+                </th>
+
+                <th style="width:30%;">
+                    Event
+                </th>
+
+                <th style="width:18%;">
+                    Date
+                </th>
+
+                <th style="width:12%;">
+                    Status
+                </th>
+
+                <th style="width:10%;" class="text-end">
+                    Actions
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for performance in performances %}
+
+            <tr>
+
+                <!-- ARTIST -->
+
+                <td>
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="ds-avatar">
+
+                            {{ performance.artist.first_name|slice:":1"|upper }}{{ performance.artist.last_name|slice:":1"|upper }}
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">
+
+                                {{ performance.artist }}
+
+                            </div>
+
+                            <div style="font-size:12px; color:var(--ds-text-3);">
+
+                                Registered Artist
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <!-- PERFORMANCE -->
+
+                <td>
+
+                    <div class="fw-semibold">
+
+                        {{ performance.performance_name }}
+
+                    </div>
+
+                    <div style="font-size:12px; color:var(--ds-text-3);">
+
+                        {{ performance.event_name }}
+
+                    </div>
+
+                </td>
+
+                <!-- DATE -->
+
+                <td>
+
+                    <div class="fw-medium">
+
+                         {{ performance.performance_date }}
+                         
+                    </div>
+
+                </td>
+
+                <!-- STATUS -->
+
+
+                <td>
+
+                    {% if performance.performance_date < today %}
+
+                    <span class="ds-badge ds-badge-success">
+                        <i class="ri-check-line"></i>
+                        Completed
+                    </span>
+
+                    {% else %}
+
+                    <span class="ds-badge ds-badge-purple">
+                        <i class="ri-time-line"></i>
+                        Scheduled
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+                <!-- ACTIONS -->
+
+                <td>
+
+                    <div class="d-flex justify-content-end gap-2 flex-nowrap">
+
+                        {% if user.role == 'admin' or user.role == 'coach'  %}
+
+                        <a
+                            href="/edit-performance/{{ performance.id }}/"
+                            class="ds-btn ds-btn-ghost ds-btn-sm"
+                        >
+
+                            <i class="ri-edit-line"></i>
+
+                        </a>
+
+                        {% endif %}
+
+                        {% if user.role == 'admin' %}
+
+                        <a
+                            href="/delete-performance/{{ performance.id }}/"
+                            class="ds-btn ds-btn-danger ds-btn-sm"
+                            onclick="return confirm('Delete performance record?')"
+                        >
+
+                            <i class="ri-delete-bin-line"></i>
+
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    <div class="ds-empty">
+
+                        <i class="ri-award-line"></i>
+
+                        <p>
+                            No performance records available.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

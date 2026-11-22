@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Training | ArtisTrack{% endblock %}
+{% block page_title %}Add Training{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+
+    <div>
+
+        <h1 class="ds-page-title">
+            Create Training Session
+        </h1>
+
+        <p class="ds-page-subtitle">
+            Schedule organization-wide dance training programs securely.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- FORM -->
+
+    <div class="col-lg-8">
+
+        <div class="ds-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h4 class="mb-1">
+                        Training Details
+                    </h4>
+
+                    <p class="text-secondary mb-0">
+                        Configure training schedules, instructors and session status.
+                    </p>
+
+                </div>
+
+                <div class="ds-stat-icon"
+                     style="position:static;background:rgba(124,106,247,.12);color:var(--ds-accent);">
+
+                    <i class="ri-run-line"></i>
+
+                </div>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Session Title
+                        </label>
+
+                        {{ form.session_title }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Trainer Name
+                        </label>
+
+                        {{ form.trainer_name }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Training Type
+                        </label>
+
+                        {{ form.training_type }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Training Date
+                        </label>
+
+                        {{ form.training_date }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Duration (Hours)
+                        </label>
+
+                        {{ form.duration_hours }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        {{ form.status }}
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Notes
+                        </label>
+
+                        {{ form.notes }}
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-3 mt-5 flex-wrap">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-primary"
+                    >
+
+                        <i class="ri-save-line"></i>
+
+                        Save Training
+
+                    </button>
+
+                    <a
+                        href="/trainings/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+
+                        <i class="ri-arrow-left-line"></i>
+
+                        Back to Trainings
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+
+    <div class="col-lg-4">
+
+        <div class="ds-card mb-4">
+
+            <img
+                src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1200&auto=format&fit=crop"
+                class="img-fluid rounded-4 mb-4"
+                style="height:220px;width:100%;object-fit:cover;"
+            >
+
+            <h4 class="mb-2">
+                Professional Training
+            </h4>
+
+            <p class="text-secondary mb-0">
+
+                Organize and monitor structured dance training sessions
+                across the entire academy.
+
+            </p>
+
+        </div>
+
+        <div class="ds-card">
+
+            <h4 class="mb-4">
+                Training Workflow
+            </h4>
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between">
+
+                    <span class="text-secondary">
+                        Scheduling
+                    </span>
+
+                    <span class="ds-badge ds-badge-info">
+                        Active
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <span class="text-secondary">
+                        Coach Coordination
+                    </span>
+
+                    <span class="ds-badge ds-badge-success">
+                        Enabled
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <span class="text-secondary">
+                        System Security
+                    </span>
+
+                    <span class="ds-badge ds-badge-purple">
+                        Protected
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

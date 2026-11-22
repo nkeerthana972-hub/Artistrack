@@ -1,0 +1,814 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block page_title %}
+Dashboard Overview
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HERO SECTION -->
+
+    <div class="ds-card mb-4 overflow-hidden position-relative"
+     style="
+        padding: 20px;
+        background:
+        radial-gradient(circle at top right, rgba(124,106,247,.22), transparent 35%),
+        linear-gradient(135deg,#171a22 0%,#101216 100%);
+     ">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+                <h1 style="
+                    font-size:38px;
+                    font-weight:700;
+                    line-height:1.1;
+                    margin-bottom:0;
+                ">
+                    Welcome back,
+                    {{ user.username }}
+                </h1>
+            </div>
+
+            <div class="col-lg-4 text-center mt-4 mt-lg-0">
+
+                {% if user.role == 'coach' %}
+
+            <img
+                src="https://media.istockphoto.com/id/2267042641/photo/ballet-teacher-correcting-young-dancers-arm-posture.webp?a=1&b=1&s=612x612&w=0&k=20&c=NuiJl1PICpTPIew9_a6WRpeFWDPYhz80KZIdY8lCfJM="
+                style="
+                    width:100%;
+                    max-height:160px;
+                    object-fit:cover;
+                    border-radius:14px;
+                    border:1px solid var(--ds-border);
+                "
+            >
+
+            {% elif user.role == 'director' %}
+
+            <img
+                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop"
+                style="
+                    width:100%;
+                    max-height:160px;
+                    object-fit:cover;
+                    border-radius:14px;
+                    border:1px solid var(--ds-border);
+                "
+            >
+
+            {% elif user.role == 'artist' %}
+
+            <img
+                src="https://images.unsplash.com/photo-1547153760-18fc86324498?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                style="
+                    width:100%;
+                    max-height:160px;
+                    object-fit:cover;
+                    border-radius:14px;
+                    border:1px solid var(--ds-border);
+                "
+            >
+
+            {% else %}
+
+            <img
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200&auto=format&fit=crop"
+                style="
+                    width:100%;
+                    max-height:160px;
+                    object-fit:cover;
+                    border-radius:14px;
+                    border:1px solid var(--ds-border);
+                "
+            >
+
+            {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+
+    {% if user.role == 'admin' %}
+
+    <!-- STATISTICS -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-xl-3">
+
+            <a href="/artists/"
+               class="ds-stat h-100 d-block text-decoration-none">
+
+                <div class="ds-stat-label">
+                    Total Artists
+                </div>
+
+                <div class="ds-stat-value">
+                    {{ artist_count }}
+                </div>
+
+                <div class="ds-stat-icon"
+                     style="
+                        background:rgba(124,106,247,.15);
+                        color:var(--ds-accent-2);
+                     ">
+
+                    <i class="ri-group-line"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+
+            <a href="/attendance/"
+               class="ds-stat h-100 d-block text-decoration-none">
+
+                <div class="ds-stat-label">
+                    Attendance Logs
+                </div>
+
+                <div class="ds-stat-value">
+                    {{ attendance_count }}
+                </div>
+
+                <div class="ds-stat-icon"
+                     style="
+                        background:rgba(34,197,94,.12);
+                        color:var(--ds-success);
+                     ">
+
+                    <i class="ri-calendar-check-line"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+
+            <a href="/injuries/"
+               class="ds-stat h-100 d-block text-decoration-none">
+
+                <div class="ds-stat-label">
+                    Injury Reports
+                </div>
+
+                <div class="ds-stat-value">
+                    {{ injury_count }}
+                </div>
+
+                <div class="ds-stat-icon"
+                     style="
+                        background:rgba(245,158,11,.12);
+                        color:var(--ds-warning);
+                     ">
+
+                    <i class="ri-heart-pulse-line"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+
+            <a href="/performances/"
+               class="ds-stat h-100 d-block text-decoration-none">
+
+                <div class="ds-stat-label">
+                    Performances
+                </div>
+
+                <div class="ds-stat-value">
+                    {{ performance_count }}
+                </div>
+
+                <div class="ds-stat-icon"
+                     style="
+                        background:rgba(239,68,68,.12);
+                        color:var(--ds-danger);
+                     ">
+
+                    <i class="ri-award-line"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="row g-4">
+
+        <!-- RECENT USERS -->
+
+        <div class="col-lg-8">
+
+            <div class="ds-card h-100">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <div>
+
+                        <h3 class="ds-card-title mb-1">
+                            Recent Registrations
+                        </h3>
+
+                        <div class="ds-page-subtitle">
+                            Newly added platform users
+                        </div>
+
+                    </div>
+
+                    <span class="ds-badge ds-badge-info">
+                        {{ recent_users|length }} New
+                    </span>
+
+                </div>
+
+                <div class="ds-table-wrap">
+
+                    <table class="ds-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Date Joined</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for u in recent_users %}
+
+                            <tr>
+
+                                <td>
+                                    {{ u.username }}
+                                </td>
+
+                                <td>
+
+                                    <span class="ds-badge
+                                        {% if u.role == 'admin' %}
+                                            ds-badge-danger
+                                        {% elif u.role == 'director' %}
+                                            ds-badge-purple
+                                        {% elif u.role == 'coach' %}
+                                            ds-badge-info
+                                        {% else %}
+                                            ds-badge-success
+                                        {% endif %}
+                                    ">
+                                        {{ u.role }}
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    {{ u.date_joined }}
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="3">
+
+                                    <div class="ds-empty">
+
+                                        <i class="ri-user-search-line"></i>
+
+                                        <p>
+                                            No recent registrations found.
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SYSTEM INSIGHTS -->
+
+        <div class="col-lg-4">
+
+            <div class="ds-card h-100">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <div>
+
+                        <h3 class="ds-card-title mb-1">
+                            System Insights
+                        </h3>
+
+                        <div class="ds-page-subtitle">
+                            Live operational overview
+                        </div>
+
+                    </div>
+
+                    <i class="ri-pulse-line"
+                       style="
+                            font-size:22px;
+                            color:var(--ds-accent-2);
+                       ">
+                    </i>
+
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+
+                    <div class="p-3 rounded"
+                         style="
+                            background:var(--ds-surface-2);
+                            border:1px solid var(--ds-border);
+                         ">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div style="
+                                    font-size:13px;
+                                    color:var(--ds-text-2);
+                                ">
+                                    Active Injuries
+                                </div>
+
+                                <div style="
+                                    font-size:24px;
+                                    font-weight:700;
+                                ">
+                                    {{ injury_count }}
+                                </div>
+
+                            </div>
+
+                            <div style="
+                                width:48px;
+                                height:48px;
+                                border-radius:14px;
+                                background:rgba(245,158,11,.12);
+                                color:var(--ds-warning);
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:24px;
+                            ">
+
+                                <i class="ri-heart-pulse-line"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-3 rounded"
+                         style="
+                            background:var(--ds-surface-2);
+                            border:1px solid var(--ds-border);
+                         ">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div style="
+                                    font-size:13px;
+                                    color:var(--ds-text-2);
+                                ">
+                                    Ongoing Performances
+                                </div>
+
+                                <div style="
+                                    font-size:24px;
+                                    font-weight:700;
+                                ">
+                                    {{ performance_count }}
+                                </div>
+
+                            </div>
+
+                            <div style="
+                                width:48px;
+                                height:48px;
+                                border-radius:14px;
+                                background:rgba(239,68,68,.12);
+                                color:var(--ds-danger);
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:24px;
+                            ">
+
+                                <i class="ri-award-line"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-3 rounded"
+                         style="
+                            background:var(--ds-surface-2);
+                            border:1px solid var(--ds-border);
+                         ">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div style="
+                                    font-size:13px;
+                                    color:var(--ds-text-2);
+                                ">
+                                    Attendance Logs
+                                </div>
+
+                                <div style="
+                                    font-size:24px;
+                                    font-weight:700;
+                                ">
+                                    {{ attendance_count }}
+                                </div>
+
+                            </div>
+
+                            <div style="
+                                width:48px;
+                                height:48px;
+                                border-radius:14px;
+                                background:rgba(34,197,94,.12);
+                                color:var(--ds-success);
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:24px;
+                            ">
+
+                                <i class="ri-calendar-check-line"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- COACH / DIRECTOR -->
+
+    {% elif user.role == 'coach' %}
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <a href="/artists/"
+               class="ds-card d-block text-decoration-none h-100">
+
+                <img
+                    src="https://images.unsplash.com/photo-1547153760-18fc86324498?q=80&w=1200&auto=format&fit=crop" 
+                    class="w-100 mb-4"
+                    style="
+                        height:240px;
+                        object-fit:cover;
+                        border-radius:14px;
+                    "
+                >
+
+                <h3 class="mb-2">
+                    Artist Operations
+                </h3>
+
+                <p style="color:var(--ds-text-2);">
+                    Manage artist profiles,
+                    records and team coordination.
+                </p>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <a href="/attendance/"
+               class="ds-card d-block text-decoration-none h-100">
+
+                <img
+                    src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1200&auto=format&fit=crop"
+                    class="w-100 mb-4"
+                    style="
+                        height:240px;
+                        object-fit:cover;
+                        border-radius:14px;
+                    "
+                >
+
+                <h3 class="mb-2">
+                    Attendance Monitoring
+                </h3>
+
+                <p style="color:var(--ds-text-2);">
+                    Track attendance securely
+                    and monitor participation.
+                </p>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <a href="/injuries/"
+               class="ds-card d-block text-decoration-none h-100">
+
+                <img
+                    src="https://images.unsplash.com/photo-1603398938378-e54eab446dde?q=80&w=1200&auto=format&fit=crop"            
+                    class="w-100 mb-4"
+                    style="
+                        height:240px;
+                        object-fit:cover;
+                        border-radius:14px;
+                    "
+                >
+
+                <h3 class="mb-2">
+                    Injury Monitoring
+                </h3>
+
+                <p style="color:var(--ds-text-2);">
+                    Maintain injury reports,
+                    recovery tracking and updates.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% elif user.role == 'director' %}
+
+    <div class="ds-card mb-4">
+        <div class="mb-4">
+            <h2 class="ds-card-title">Organization Reports</h2>
+            <div class="ds-page-subtitle">Overall performance and operational statistics</div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div style="position:relative; height:260px;">
+                    <canvas id="orgOverviewChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div style="position:relative; height:260px;">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script>
+    Chart.defaults.color = '#9aa0ad';
+    Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+
+    setTimeout(() => {
+
+        const existingBar = Chart.getChart('orgOverviewChart');
+        if (existingBar) existingBar.destroy();
+
+        const existingDonut = Chart.getChart('attendanceChart');
+        if (existingDonut) existingDonut.destroy();
+
+        new Chart(document.getElementById('orgOverviewChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Total Artists', 'Training Sessions', 'Performances', 'Injury Reports'],
+                datasets: [{
+                    label: 'Count',
+                    data: [{{ artist_count }}, {{ total_trainings }}, {{ performance_count }}, {{ injury_count }}],
+                    backgroundColor: ['rgba(124,106,247,0.85)','rgba(34,197,94,0.8)','rgba(239,68,68,0.8)','rgba(245,158,11,0.8)'],
+                    borderColor: ['#7c6af7','#22c55e','#ef4444','#f59e0b'],
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Organization Overview', color: '#e5e7eb', font: { size: 14, weight: '600' } }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { precision: 0, color: '#9aa0ad' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { ticks: { color: '#9aa0ad' }, grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('attendanceChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Present', 'Absent'],
+                datasets: [{
+                    data: [{{ present_count }}, {{ absent_count }}],
+                    backgroundColor: ['rgba(34,197,94,0.75)','rgba(239,68,68,0.75)'],
+                    borderColor: '#101216',
+                    borderWidth: 3,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                cutout: '68%',
+                plugins: {
+                    title: { display: true, text: 'Attendance Rate: {{ attendance_percentage }}%', color: '#e5e7eb', font: { size: 14, weight: '600' } },
+                    legend: { labels: { color: '#9aa0ad', usePointStyle: true, pointStyle: 'circle' } }
+                }
+            }
+        });
+
+    }, 300);
+    </script>
+
+{% elif user.role == 'artist' %}
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <a href="/my-profile/"
+               class="ds-card d-block text-decoration-none h-100">
+
+                <div class="mb-4">
+
+                    <div style="
+                        width:72px;
+                        height:72px;
+                        border-radius:20px;
+                        background:rgba(124,106,247,.15);
+                        color:var(--ds-accent-2);
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:32px;
+                    ">
+
+                        <i class="ri-user-line"></i>
+
+                    </div>
+
+                </div>
+
+                <h3 class="mb-2">
+                    My Profile
+                </h3>
+
+                <p style="color:var(--ds-text-2);">
+                    View and manage your
+                    personal artist profile.
+                </p>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <a href="/my-attendance/"
+               class="ds-card d-block text-decoration-none h-100">
+
+                <div class="mb-4">
+
+                    <div style="
+                        width:72px;
+                        height:72px;
+                        border-radius:20px;
+                        background:rgba(34,197,94,.12);
+                        color:var(--ds-success);
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:32px;
+                    ">
+
+                        <i class="ri-calendar-check-line"></i>
+
+                    </div>
+
+                </div>
+
+                <h3 class="mb-2">
+                    My Attendance
+                </h3>
+
+                <p style="color:var(--ds-text-2);">
+                    Review attendance history
+                    and participation logs.
+                </p>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <a href="/my-injuries/"
+               class="ds-card d-block text-decoration-none h-100">
+
+                <div class="mb-4">
+
+                    <div style="
+                        width:72px;
+                        height:72px;
+                        border-radius:20px;
+                        background:rgba(245,158,11,.12);
+                        color:var(--ds-warning);
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:32px;
+                    ">
+
+                        <i class="ri-heart-pulse-line"></i>
+
+                    </div>
+
+                </div>
+
+                <h3 class="mb-2">
+                    My Injuries
+                </h3>
+
+                <p style="color:var(--ds-text-2);">
+                    Access injury reports,
+                    recovery progress and updates.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

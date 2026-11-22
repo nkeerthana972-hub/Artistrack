@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block page_title %}My Injuries{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+    <h1 class="ds-page-title">My Injuries</h1>
+    <p class="ds-page-subtitle">
+        Track injury reports, recovery progress and coach notes.
+    </p>
+</div>
+
+<div class="row g-4">
+
+    {% for injury in injuries %}
+
+    <div class="col-lg-6">
+
+        <div class="ds-card h-100">
+
+            <div class="d-flex justify-content-between align-items-start mb-4">
+
+                <div>
+
+                    <h3 class="fw-semibold mb-2">
+                        {{ injury.injury_name }}
+                    </h3>
+
+                    <div class="text-secondary small">
+                        {{ injury.injury_date }}
+                    </div>
+
+                </div>
+
+                {% if injury.severity == 'high' %}
+
+                    <span class="ds-badge ds-badge-danger">
+                        High Severity
+                    </span>
+
+                {% elif injury.severity == 'medium' %}
+
+                    <span class="ds-badge ds-badge-warning">
+                        Medium Severity
+                    </span>
+
+                {% else %}
+
+                    <span class="ds-badge ds-badge-success">
+                        Low Severity
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <div class="mb-4">
+
+                <strong>Status</strong>
+
+                <div class="mt-2">
+
+                    {% if injury.status == 'open' %}
+
+                        <span class="ds-badge ds-badge-danger">
+                            Open
+                        </span>
+
+                    {% elif injury.status == 'recovering' %}
+
+                        <span class="ds-badge ds-badge-warning">
+                            Recovering
+                        </span>
+
+                    {% else %}
+
+                        <span class="ds-badge ds-badge-success">
+                            Resolved
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="mb-4">
+
+                <strong>Description</strong>
+
+                <p class="text-secondary mt-2 mb-0">
+                    {{ injury.description }}
+                </p>
+
+            </div>
+
+            {% if injury.coach_notes %}
+
+            <div class="ds-card mb-4"
+                 style="background:rgba(124,106,247,.08);border-color:rgba(124,106,247,.15);">
+
+                <div class="fw-semibold mb-2">
+                    Coach Notes
+                </div>
+
+                <div class="text-secondary">
+                    {{ injury.coach_notes }}
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            {% if injury.medical_document %}
+
+            <a
+                href="{{ injury.medical_document.url }}"
+                target="_blank"
+                class="ds-btn ds-btn-primary"
+            >
+                <i class="ri-file-paper-2-line"></i>
+                View Medical Document
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+
+        <div class="ds-empty">
+
+            <i class="ri-shield-check-line"></i>
+
+            <p>No injuries reported.</p>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

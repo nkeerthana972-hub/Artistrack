@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Performance | ArtisTrack{% endblock %}
+{% block page_title %}Delete Performance{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-6">
+
+        <div class="ds-card text-center">
+
+            <div class="mb-4">
+
+                <div class="ds-stat-icon mx-auto"
+                     style="position:static;
+                            width:80px;
+                            height:80px;
+                            font-size:36px;
+                            background:rgba(239,68,68,.12);
+                            color:var(--ds-danger);">
+
+                    <i class="ri-delete-bin-6-line"></i>
+
+                </div>
+
+            </div>
+
+            <h2 class="mb-3">
+                Delete Performance
+            </h2>
+
+            <p class="text-secondary mb-4">
+
+                Are you sure you want to delete this performance record?
+
+            </p>
+
+            <div class="ds-card mb-4 text-start">
+
+                <div class="mb-3">
+
+                    <small class="text-secondary d-block">
+                        Performance
+                    </small>
+
+                    <strong>
+                        {{ performance.performance_name }}
+                    </strong>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <small class="text-secondary d-block">
+                        Artist
+                    </small>
+
+                    <strong>
+                        {{ performance.artist }}
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <small class="text-secondary d-block">
+                        Date
+                    </small>
+
+                    <strong>
+                        {{ performance.date }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-danger"
+                    >
+
+                        <i class="ri-delete-bin-line"></i>
+                        Confirm Delete
+
+                    </button>
+
+                    <a
+                        href="/performances/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

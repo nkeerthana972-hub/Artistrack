@@ -1,0 +1,342 @@
+{% extends 'base_public.html' %}
+
+{% block title %}Admin OTP Verification — ArtisTrack{% endblock %}
+
+{% block content %}
+
+<style>
+
+.otp-page{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ds-bg);
+    position:relative;
+    overflow:hidden;
+    padding:30px;
+}
+
+.otp-page::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(rgba(13,15,18,.82),rgba(13,15,18,.92)),
+        url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1974&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+}
+
+.otp-card{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:460px;
+    background:rgba(24,28,34,.92);
+    border:1px solid var(--ds-border-2);
+    border-radius:28px;
+    padding:42px;
+    backdrop-filter:blur(18px);
+    overflow:hidden;
+}
+
+.otp-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:linear-gradient(
+        90deg,
+        var(--ds-accent),
+        #38bdf8,
+        var(--ds-accent-2)
+    );
+}
+
+.otp-icon{
+    width:72px;
+    height:72px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(124,106,247,.12);
+    border:1px solid rgba(124,106,247,.25);
+    margin-bottom:24px;
+}
+
+.otp-icon i{
+    font-size:34px;
+    color:var(--ds-accent-2);
+}
+
+.otp-title{
+    font-size:34px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.otp-subtitle{
+    color:var(--ds-text-2);
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-group label{
+    margin-bottom:8px;
+    display:block;
+}
+
+.otp-input input{
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--ds-border);
+    color:white;
+    font-size:18px;
+    text-align:center;
+    letter-spacing:4px;
+}
+
+.verify-btn{
+    width:100%;
+    justify-content:center;
+    padding:14px;
+    font-size:15px;
+    margin-top:8px;
+}
+
+.info-box{
+    margin-top:24px;
+    padding:14px;
+    border-radius:14px;
+    background:rgba(56,189,248,.08);
+    border:1px solid rgba(56,189,248,.18);
+    color:var(--ds-text-2);
+    font-size:13px;
+    line-height:1.6;
+}
+
+.page-orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.18;
+    z-index:0;
+}
+
+.orb-1{
+    width:320px;
+    height:320px;
+    background:#7c6af7;
+    top:-80px;
+    right:-80px;
+}
+
+.orb-2{
+    width:260px;
+    height:260px;
+    background:#38bdf8;
+    bottom:-80px;
+    left:-80px;
+}
+
+.timer-box{
+    margin-bottom:20px;
+    padding:12px;
+    border-radius:14px;
+    text-align:center;
+    background:rgba(124,106,247,.08);
+    border:1px solid rgba(124,106,247,.18);
+}
+
+.timer-label{
+    font-size:12px;
+    color:var(--ds-text-3);
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.timer-value{
+    font-size:26px;
+    font-weight:700;
+    color:var(--ds-accent-2);
+    margin-top:4px;
+}
+
+.timer-expired{
+    color:#ef4444;
+}
+
+.resend-section{
+    display:none;
+    margin-top:20px;
+}
+
+.resend-btn{
+    width:100%;
+    justify-content:center;
+}
+
+.expired-message{
+    margin-top:12px;
+    text-align:center;
+    color:#ef4444;
+    font-size:13px;
+}
+
+</style>
+
+<div class="otp-page">
+
+    <div class="page-orb orb-1"></div>
+    <div class="page-orb orb-2"></div>
+
+    <div class="otp-card">
+
+        <div class="otp-icon">
+            <i class="ri-shield-keyhole-line"></i>
+        </div>
+
+        <h1 class="otp-title">
+            Admin Verification
+        </h1>
+
+        <p class="otp-subtitle">
+            Enter the 6-digit OTP sent to your registered email address to securely access the admin dashboard.
+        </p>
+
+        <div class="timer-box">
+
+            <div class="timer-label">
+                OTP Expires In
+            </div>
+
+            <div
+                id="otpTimer"
+                class="timer-value"
+            >
+                05:00
+            </div>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>One-Time Password (OTP)</label>
+
+                <div class="otp-input">
+                    {{ form.otp }}
+                </div>
+
+                {% if form.otp.errors %}
+                    <div class="text-danger small mt-2">
+                        {{ form.otp.errors|striptags }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <button
+                id="verifyBtn"
+                type="submit"
+                class="ds-btn ds-btn-primary verify-btn"
+            >
+                <i class="ri-lock-password-line"></i>
+                Verify OTP
+            </button>
+
+            <div
+                id="resendSection"
+                class="resend-section"
+            >
+
+                <a
+                    href="{% url 'resend_admin_otp' %}"
+                    class="ds-btn ds-btn-secondary resend-btn"
+                >
+                    <i class="ri-refresh-line"></i>
+                    Resend OTP
+                </a>
+
+                <div class="expired-message">
+                    Your OTP has expired. Request a new code.
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="info-box">
+            <i class="ri-information-line"></i>
+            OTP expires after 5 minutes for security purposes.
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let timeRemaining = 300;
+
+const timerElement =
+    document.getElementById("otpTimer");
+
+const verifyButton =
+    document.getElementById("verifyBtn");
+
+const countdown = setInterval(() => {
+
+    const minutes =
+        Math.floor(timeRemaining / 60);
+
+    const seconds =
+        timeRemaining % 60;
+
+    timerElement.textContent =
+        `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+
+    if(timeRemaining <= 0){
+
+        clearInterval(countdown);
+
+        timerElement.textContent =
+            "OTP EXPIRED";
+
+        timerElement.classList.add(
+            "timer-expired"
+        );
+
+        verifyButton.disabled = true;
+
+        verifyButton.innerHTML =
+            '<i class="ri-time-line"></i> OTP Expired';
+
+        verifyButton.style.opacity = ".6";
+
+        document.getElementById(
+            "resendSection"
+        ).style.display = "block";
+
+    }
+
+    timeRemaining--;
+
+},1000);
+
+</script>
+
+{% endblock %}

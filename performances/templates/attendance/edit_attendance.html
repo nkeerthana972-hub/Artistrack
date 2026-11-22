@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Attendance | ArtisTrack{% endblock %}
+{% block page_title %}Edit Attendance{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-8">
+
+        <div class="ds-page-header">
+
+            <h1 class="ds-page-title">
+                Edit Attendance
+            </h1>
+
+            <p class="ds-page-subtitle">
+                Update artist attendance records securely.
+            </p>
+
+        </div>
+
+        <div class="ds-card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Artist
+                        </label>
+
+                        {{ form.artist }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Training Session
+                        </label>
+
+                        {{ form.training }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Attendance Date
+                        </label>
+
+                        {{ form.date }}
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="mb-2">
+                            Status
+                        </label>
+
+                        {{ form.status }}
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="mb-2">
+                            Remarks
+                        </label>
+
+                        {{ form.remarks }}
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex flex-wrap gap-3 mt-5">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-primary"
+                    >
+
+                        <i class="ri-save-line"></i>
+
+                        Save Changes
+
+                    </button>
+
+                    <a
+                        href="/attendance/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+
+                        <i class="ri-arrow-left-line"></i>
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

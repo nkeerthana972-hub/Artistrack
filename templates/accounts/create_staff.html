@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Staff | ArtisTrack{% endblock %}
+
+{% block page_title %}Create Staff{% endblock %}
+
+{% block content %}
+
+<style>
+
+.staff-wrapper{
+    max-width:850px;
+    margin:auto;
+}
+
+.staff-card{
+    background:rgba(24,28,34,.92);
+    border:1px solid var(--ds-border-2);
+    border-radius:28px;
+    padding:42px;
+    position:relative;
+    overflow:hidden;
+}
+
+.staff-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:linear-gradient(
+        90deg,
+        var(--ds-accent),
+        #38bdf8,
+        var(--ds-accent-2)
+    );
+}
+
+.staff-title{
+    font-size:34px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.staff-subtitle{
+    color:var(--ds-text-2);
+    margin-bottom:32px;
+    line-height:1.7;
+}
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-text{
+    color:#b8c2d3 !important;
+    font-size:12px !important;
+    margin-top:8px;
+    line-height:1.7;
+    opacity:.92;
+}
+
+
+.form-group label{
+    margin-bottom:8px;
+    display:block;
+}
+
+.submit-btn{
+    width:100%;
+    justify-content:center;
+    padding:14px;
+    margin-top:12px;
+}
+
+.info-box{
+    margin-top:30px;
+    padding:16px;
+    border-radius:16px;
+    background:rgba(124,106,247,.08);
+    border:1px solid rgba(124,106,247,.18);
+    color:var(--ds-text-2);
+    line-height:1.7;
+    font-size:14px;
+}
+
+</style>
+
+<div class="staff-wrapper">
+
+    <div class="staff-card">
+
+        <h1 class="staff-title">
+            Create Staff Account
+        </h1>
+
+        <p class="staff-subtitle">
+            Create secure Director and Coach accounts for your organisation.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {% for field in form %}
+
+                <div class="form-group">
+
+                    {{ field.label_tag }}
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <div class="form-text mt-2">
+                            {{ field.help_text }}
+                        </div>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="text-danger small mt-2">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+            <button
+                type="submit"
+                class="ds-btn ds-btn-primary submit-btn"
+            >
+                <i class="ri-user-add-line"></i>
+                Create Staff Account
+            </button>
+
+        </form>
+
+        <div class="info-box">
+
+            <i class="ri-shield-check-line"></i>
+
+            Only Directors and Coaches can be created here.
+            Admin creation is permanently restricted for security.
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

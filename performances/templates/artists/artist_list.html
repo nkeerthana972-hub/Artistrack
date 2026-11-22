@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+
+{% block title %}Artists | ArtisTrack{% endblock %}
+{% block page_title %}Artist Management{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+        <h1 class="ds-page-title">Artists</h1>
+        <p class="ds-page-subtitle">
+            Manage artist records, performance profiles, and dance information.
+        </p>
+    </div>
+
+    {% if user.role == 'admin' or user.role == 'coach' or user.role == 'director' %}
+    <a href="/add-artist/" class="ds-btn ds-btn-primary">
+        <i class="ri-user-add-line"></i>
+        Add Artist
+    </a>
+    {% endif %}
+</div>
+
+<!-- HERO SECTION -->
+
+<div class="ds-card mb-4 overflow-hidden position-relative">
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-8">
+
+            <span class="ds-badge ds-badge-purple mb-3">
+                <i class="ri-group-line"></i>
+                Artist Directory
+            </span>
+
+            <h2 style="font-size:32px;font-weight:700;line-height:1.2;">
+                Centralized Artist Management
+            </h2>
+
+            <p class="mt-3 text-secondary" style="max-width:650px;">
+                View, search, edit, and manage all registered artists securely
+                through the ArtisTrack management system.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+
+                <div class="ds-topbar-badge">
+                    <i class="ri-user-star-line"></i>
+                    {{ artists.paginator.count }} Total Artists
+                </div>
+
+                <div class="ds-topbar-badge">
+                    <i class="ri-shield-check-line"></i>
+                    Secure Records
+                </div>
+
+                <div class="ds-topbar-badge">
+                    <i class="ri-team-line"></i>
+                    Role Protected
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 text-center mt-4 mt-lg-0">
+
+            <img
+                src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=1200&auto=format&fit=crop"
+                style="
+                    width:100%;
+                    max-height:260px;
+                    object-fit:cover;
+                    border-radius:18px;
+                    border:1px solid rgba(255,255,255,0.08);
+                "
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="ds-card mb-4">
+
+    <form method="GET">
+
+        <div class="row g-3 align-items-end">
+
+            <div class="col-lg-10">
+
+                <label>
+                    Search Artists
+                </label>
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search by artist name, dance style, or phone..."
+                    value="{{ request.GET.q }}"
+                >
+
+            </div>
+
+            <div class="col-lg-2">
+
+                <button
+                    type="submit"
+                    class="ds-btn ds-btn-primary w-100 justify-content-center"
+                >
+                    <i class="ri-search-line"></i>
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- ARTISTS TABLE -->
+
+<div class="ds-table-wrap">
+
+    <table class="ds-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Artist</th>
+                <th>Dance Style</th>
+                <th>Phone</th>
+                <th>Status</th>
+
+                {% if user.role == 'admin' or user.role == 'coach' or user.role == 'director' %}
+                <th style="width:180px;">Actions</th>
+                {% endif %}
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for artist in artists %}
+
+            <tr>
+
+                <td>
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="ds-avatar">
+                            {{ artist.first_name|slice:":1" }}{{ artist.last_name|slice:":1" }}
+                        </div>
+
+                        <div>
+
+                            <div style="font-weight:600;">
+                                {{ artist.first_name }} {{ artist.last_name }}
+                            </div>
+
+                            <div style="font-size:12px;color:var(--ds-text-3);">
+                                Artist ID #{{ artist.id }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>
+
+                    <span class="ds-badge ds-badge-info">
+                        {{ artist.dance_style }}
+                    </span>
+
+                </td>
+
+                <td>
+                    {{ artist.phone }}
+                </td>
+
+                <td>
+
+                    <span class="ds-badge ds-badge-success">
+                        <i class="ri-checkbox-circle-line"></i>
+                        Active
+                    </span>
+
+                </td>
+
+                {% if user.role == 'admin' or user.role == 'coach' or user.role == 'director' %}
+                <td>
+
+                    <div class="d-flex gap-2">
+
+                        <a
+                            href="/edit-artist/{{ artist.id }}/"
+                            class="ds-btn ds-btn-warning ds-btn-sm"
+                        >
+                            <i class="ri-edit-line"></i>
+                            Edit
+                        </a>
+
+                        {% if user.role == 'admin' %}
+                        <a
+                            href="/delete-artist/{{ artist.id }}/"
+                            class="ds-btn ds-btn-danger ds-btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this artist?')"
+                        >
+                            <i class="ri-delete-bin-line"></i>
+                            Delete
+                        </a>
+                        {% endif %}
+
+                    </div>
+
+                </td>
+                {% endif %}
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    <div class="ds-empty">
+
+                        <i class="ri-user-search-line"></i>
+
+                        <p>
+                            No artists found in the system.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- PAGINATION -->
+
+{% if artists.has_other_pages %}
+
+<div class="ds-pagination justify-content-center">
+
+    {% if artists.has_previous %}
+    <a
+        href="?page={{ artists.previous_page_number }}"
+        class="ds-page-btn"
+    >
+        Previous
+    </a>
+    {% endif %}
+
+    <span class="ds-page-btn active">
+        Page {{ artists.number }} of {{ artists.paginator.num_pages }}
+    </span>
+
+    {% if artists.has_next %}
+    <a
+        href="?page={{ artists.next_page_number }}"
+        class="ds-page-btn"
+    >
+        Next
+    </a>
+    {% endif %}
+
+</div>
+
+{% endif %}
+
+{% endblock %}

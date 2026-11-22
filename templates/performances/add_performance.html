@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Performance | ArtisTrack{% endblock %}
+{% block page_title %}Add Performance{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
+        <h1 class="ds-page-title">
+            Add New Performance
+        </h1>
+
+        <p class="ds-page-subtitle">
+            Schedule and manage upcoming artist performances.
+        </p>
+    </div>
+
+    <a href="/performances/" class="ds-btn ds-btn-ghost">
+        <i class="ri-arrow-left-line"></i>
+        Back to Performances
+    </a>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- FORM SECTION -->
+
+    <div class="col-lg-8">
+
+        <div class="ds-card">
+
+            <div class="d-flex align-items-center justify-content-between mb-4">
+
+                <div>
+                    <h3 class="mb-1">
+                        Performance Information
+                    </h3>
+
+                    <small class="text-secondary">
+                        Create new performance records securely.
+                    </small>
+                </div>
+
+                <div class="ds-stat-icon"
+                     style="background:rgba(124,106,247,.12); color:var(--ds-accent);">
+                    <i class="ri-award-line"></i>
+                </div>
+
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="ds-alert ds-alert-error mb-4">
+                        <i class="ri-error-warning-line"></i>
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="row g-4">
+
+                    {% for field in form %}
+
+                    <div class="col-md-6">
+
+                        <label>
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small class="text-secondary d-block mt-1">
+                                {{ field.help_text }}
+                            </small>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="text-danger small mt-2">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="d-flex gap-3 mt-5 flex-wrap">
+
+                    <button
+                        type="submit"
+                        class="ds-btn ds-btn-primary"
+                    >
+                        <i class="ri-save-line"></i>
+                        Save Performance
+                    </button>
+
+                    <a
+                        href="/performances/"
+                        class="ds-btn ds-btn-ghost"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- SIDE PANEL -->
+
+    <div class="col-lg-4">
+
+        <div class="ds-card">
+
+            <h5 class="mb-4">
+                Event Guidelines
+            </h5>
+
+            <div class="d-flex flex-column gap-3">
+
+                <div class="d-flex gap-3">
+                    <i class="ri-checkbox-circle-line text-success"></i>
+                    <small class="text-secondary">
+                        Verify artist availability before scheduling.
+                    </small>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <i class="ri-checkbox-circle-line text-success"></i>
+                    <small class="text-secondary">
+                        Maintain accurate event dates and timing.
+                    </small>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <i class="ri-checkbox-circle-line text-success"></i>
+                    <small class="text-secondary">
+                        Track ongoing and upcoming performances.
+                    </small>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <i class="ri-checkbox-circle-line text-success"></i>
+                    <small class="text-secondary">
+                        Ensure performance records remain updated.
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

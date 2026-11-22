@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+
+{% block page_title %}My Performances{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+    <h1 class="ds-page-title">My Performances</h1>
+    <p class="ds-page-subtitle">
+        Track your performance growth, scores and coach evaluations.
+    </p>
+</div>
+
+<!-- STATS -->
+
+<div class="row g-4 mb-5">
+
+    <div class="col-md-4">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Total Performances
+            </div>
+
+            <div class="ds-stat-value">
+                {{ total_performances }}
+            </div>
+
+            <div class="ds-stat-icon"
+                 style="background:rgba(124,106,247,.15);color:var(--ds-accent-2);">
+
+                <i class="ri-award-line"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Average Score
+            </div>
+
+            <div class="ds-stat-value">
+                {{ average_score }}
+            </div>
+
+            <div class="ds-stat-icon"
+                 style="background:rgba(34,197,94,.15);color:var(--ds-success);">
+
+                <i class="ri-bar-chart-line"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Highest Score
+            </div>
+
+            <div class="ds-stat-value">
+                {{ highest_score }}
+            </div>
+
+            <div class="ds-stat-icon"
+                 style="background:rgba(56,189,248,.15);color:var(--ds-info);">
+
+                <i class="ri-trophy-line"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- RECENT PERFORMANCE -->
+
+<div class="ds-card mb-5">
+
+    <h3 class="ds-card-title mb-4">
+        Recent Performances
+    </h3>
+
+    <div class="row g-4">
+
+        {% for performance in recent_performances %}
+
+        <div class="col-lg-4">
+
+            <div class="ds-card h-100">
+
+                <div class="d-flex justify-content-between align-items-start mb-3">
+
+                    <h5 class="fw-semibold mb-0">
+                        {{ performance.event_name }}
+                    </h5>
+
+                    <span class="ds-badge ds-badge-success">
+                        {{ performance.score }}
+                    </span>
+
+                </div>
+
+                <div class="text-secondary small mb-3">
+                    {{ performance.performance_date }}
+                </div>
+
+                <p class="text-secondary mb-0">
+                    {{ performance.feedback|truncatewords:20 }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="ds-empty">
+
+                <i class="ri-award-line"></i>
+
+                <p>No performances available.</p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- HISTORY TABLE -->
+
+<div class="ds-card">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h3 class="ds-card-title mb-0">
+            Performance History
+        </h3>
+
+    </div>
+
+    <div class="ds-table-wrap">
+
+        <table class="ds-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Event</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Feedback</th>
+                    <th>Coach Comments</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for performance in performances %}
+
+                <tr>
+
+                    <td>
+                        {{ performance.event_name }}
+                    </td>
+
+                    <td>
+                        {{ performance.performance_date }}
+                    </td>
+
+                    <td>
+
+                        <span class="ds-badge ds-badge-success">
+
+                            {{ performance.score }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {{ performance.feedback|truncatewords:12 }}
+
+                    </td>
+
+                    <td>
+
+                        {% if performance.coach_comments %}
+
+                            {{ performance.coach_comments|truncatewords:12 }}
+
+                        {% else %}
+
+                            <span class="text-secondary">
+                                No comments
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5">
+
+                        <div class="ds-empty py-4">
+
+                            <p>No performance records found.</p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

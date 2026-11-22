@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}My Trainings | ArtisTrack{% endblock %}
+{% block page_title %}My Trainings{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header">
+
+    <h1 class="ds-page-title">
+        My Trainings
+    </h1>
+
+    <p class="ds-page-subtitle">
+        View academy training schedules and your assigned sessions.
+    </p>
+
+</div>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Total Sessions
+            </div>
+
+            <div class="ds-stat-value">
+                {{ total_trainings }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Completed
+            </div>
+
+            <div class="ds-stat-value">
+                {{ completed_trainings }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Scheduled
+            </div>
+
+            <div class="ds-stat-value">
+                {{ upcoming_trainings }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Missed
+            </div>
+
+            <div class="ds-stat-value">
+                {{ missed_trainings }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="ds-table-wrap">
+
+    <table class="ds-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Session</th>
+                <th>Trainer</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Type</th>
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for training in trainings %}
+
+            <tr>
+
+                <td>
+                    {{ training.session_title }}
+                </td>
+
+                <td>
+                    {{ training.trainer_name }}
+                </td>
+
+                <td>
+                    {{ training.training_date }}
+                </td>
+
+                <td>
+                    {{ training.duration_hours }} hrs
+                </td>
+
+                <td>
+                    {{ training.training_type }}
+                </td>
+
+                <td>
+
+                    {% if training.status == 'Completed' %}
+
+                    <span class="ds-badge ds-badge-success">
+                        Completed
+                    </span>
+
+                    {% elif training.status == 'Missed' %}
+
+                    <span class="ds-badge ds-badge-danger">
+                        Missed
+                    </span>
+
+                    {% else %}
+
+                    <span class="ds-badge ds-badge-info">
+                        Scheduled
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="6">
+
+                    <div class="ds-empty">
+
+                        <i class="ri-run-line"></i>
+
+                        <p>
+                            No training sessions available.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

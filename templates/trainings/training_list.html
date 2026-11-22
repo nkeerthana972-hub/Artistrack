@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block title %}Trainings | ArtisTrack{% endblock %}
+{% block page_title %}Training Management{% endblock %}
+
+{% block content %}
+
+<div class="ds-page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+    <div>
+
+        <h1 class="ds-page-title">
+            Training Management
+        </h1>
+
+        <p class="ds-page-subtitle">
+            Manage academy-wide dance training programs and schedules.
+        </p>
+
+    </div>
+
+    {% if user.role == 'admin' or user.role == 'coach' %}
+
+    <a
+        href="/add-training/"
+        class="ds-btn ds-btn-primary"
+    >
+
+        <i class="ri-add-line"></i>
+
+        Add Training
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+<!-- STATS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Total Trainings
+            </div>
+
+            <div class="ds-stat-value">
+                {{ trainings.count }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Completed
+            </div>
+
+            <div class="ds-stat-value">
+                {{ completed_count }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="ds-stat">
+
+            <div class="ds-stat-label">
+                Missed
+            </div>
+
+            <div class="ds-stat-value">
+                {{ missed_count }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="ds-card mb-4">
+
+    <form method="GET">
+
+        <div class="row g-3">
+
+            <div class="col-lg-10">
+
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search training sessions..."
+                    value="{{ query }}"
+                >
+
+            </div>
+
+            <div class="col-lg-2">
+
+                <button class="ds-btn ds-btn-primary w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="ds-table-wrap">
+
+    <table class="ds-table">
+
+        <thead>
+
+            <tr>
+                
+                <th>Session</th>
+                <th>Trainer</th>
+                <th>Training Type</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Status</th>
+                {% if user.role != 'director' %}
+                <th>Actions</th>
+                {% endif %}
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for training in trainings %}
+
+            <tr>
+
+                <td class="fw-semibold">
+                    {{ training.session_title }}
+                </td>
+
+                <td>
+                    {{ training.trainer_name }}
+                </td>
+
+                <td>
+                    {{ training.training_type }}
+                </td>
+
+                <td>
+                    {{ training.training_date }}
+                </td>
+
+                <td>
+                    {{ training.duration_hours }} hrs
+                </td>
+
+                <td>
+
+                    {% if training.status == 'Completed' %}
+
+                    <span class="ds-badge ds-badge-success">
+                        Completed
+                    </span>
+
+                    {% elif training.status == 'Missed' %}
+
+                    <span class="ds-badge ds-badge-danger">
+                        Missed
+                    </span>
+
+                    {% else %}
+
+                    <span class="ds-badge ds-badge-info">
+                        Scheduled
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+                {% if user.role != 'director' %}
+
+                <td>
+
+                    <div class="d-flex gap-2">
+
+                        {% if user.role == 'admin' or user.role == 'coach' %}
+
+                        <a
+                            href="/edit-training/{{ training.id }}/"
+                            class="ds-btn ds-btn-warning ds-btn-sm"
+                        >
+                            Edit
+                        </a>
+
+                        {% endif %}
+
+                        {% if user.role == 'admin' %}
+
+                        <a
+                            href="/delete-training/{{ training.id }}/"
+                            class="ds-btn ds-btn-danger ds-btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this training?');"
+                        >
+                            Delete
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </td>
+
+                {% endif %}
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="{% if user.role == 'director' %}6{% else %}7{% endif %}">
+
+                    <div class="ds-empty">
+
+                        <i class="ri-run-line"></i>
+
+                        <p>
+                            No training sessions found.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
