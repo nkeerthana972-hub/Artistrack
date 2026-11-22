@@ -131,7 +131,7 @@ def login_view(request):
                             f"Regards,\n"
                             f"ArtisTrack System"
                         ),
-                        from_email=settings.EMAIL_HOST_USER,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
                         recipient_list=[user.email],
                         fail_silently=False,
                     )
@@ -402,7 +402,7 @@ def resend_admin_otp(request):
             f"Regards,\n"
             f"ArtisTrack System"
         ),
-        from_email=settings.EMAIL_HOST_USER,
+        from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[user.email],
         fail_silently=False,
     )
@@ -501,8 +501,8 @@ def forgot_password(request):
                         f"Regards,\n"
                         f"ArtisTrack System"
                     ),
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=['keenunani@gmail.com'],   # changed from [user.email]
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[user.email],   # changed from [user.email]
                     fail_silently=False
                 )
 
